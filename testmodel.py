@@ -1,5 +1,5 @@
 import torch
-from wav2vec2 import load_model
+from hubert_ft import load_model
 
 a = load_model()
 torch.save(a.state_dict(), 'toyzdog.pt')
