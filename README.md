@@ -17,10 +17,10 @@ git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git
 
 ```python3
 # In python code:
-from GARU import hubert_xlarge
+from GURA import hubert_xlarge
 ```
 
 ### Note
 
-* Modifying the hubert_xlarge code should be in the `GARU` folder.
-* If we want to add new code into the package & make it importable, just put the file under the `GARU` folder.
+* Modifying the hubert_xlarge code should be in the `GURA` folder.
+* If we want to add new code into the package & make it importable, just put the file under the `GURA` folder.
