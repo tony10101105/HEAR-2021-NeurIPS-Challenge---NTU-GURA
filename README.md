@@ -4,8 +4,9 @@
 
 **This is a test for pip installable package of HuBERT_xlarge from our repo.**
 
-```
-$ ~/bin/python3.8/bin/python3.8 -m pip install git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git
+```shell
+$ ~/bin/python3.8/bin/python3.8 -m pip install \
+git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git
 ```
 
 ## Usage
