@@ -2,7 +2,7 @@
 
 ## Description
 
-We use HuBERT xlarge to process the raw audio input.
+We use **HuBERT xlarge** to process the raw audio input.
 
 ## Installation of the package
 
