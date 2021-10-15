@@ -1,12 +1,12 @@
 from typing import Tuple
 import torch
-from avgbert import hubert_wav2vec2
+from merge2bert import hubert_wav2vec2_cat
 from torch import Tensor
 
 
 def load_model(model_file_path: str = "") -> torch.nn.Module:
 
-    model = hubert_wav2vec2()
+    model = hubert_wav2vec2_cat()
 
     if torch.cuda.is_available():
         model.cuda()
