@@ -17,3 +17,7 @@ git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git
 # In python code:
 from GURA import hubert_xlarge
 ```
+## CUDA & cuDNN Version
+
+* CUDA: 11.4
+* cuDNN: 8204
