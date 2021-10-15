@@ -2,7 +2,7 @@
 
 ## Description
 
-We use **HuBERT xlarge** to process the raw audio input.
+We use a model that concatenate **HuBERT large** and **wav2vec2** to process the raw audio input.
 
 ## Installation of the package
 
