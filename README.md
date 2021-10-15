@@ -2,7 +2,7 @@
 
 ## Description
 
-We average Hubert large & Wav2Vec2 large to process the raw audio input.
+We average **HuBERT large** & **Wav2Vec2 large** to process the raw audio input.
 
 ## Installation of the package
 
@@ -20,3 +20,7 @@ from GURA import avgbert
 ## CUDA Version
 
 * CUDA: 11.4
+
+## Transformer Version
+
+* 4.11.3
