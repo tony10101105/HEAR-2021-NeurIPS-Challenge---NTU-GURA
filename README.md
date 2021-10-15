@@ -20,3 +20,7 @@ from GURA import catbert
 ## CUDA Version
 
 * CUDA: 11.4
+
+## Transformer Version
+
+* 4.11.3
