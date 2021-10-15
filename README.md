@@ -2,7 +2,7 @@
 
 ## Description
 
-We average **HuBERT large** & **Wav2Vec2 large** to process the raw audio input.
+We average **HuBERT large** & **wav2vec2 large** to process the raw audio input.
 
 ## Installation of the package
 
