@@ -8,7 +8,7 @@ We use **HuBERT xlarge** to process the raw audio input.
 
 ```shell
 pip install \
-git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git
+git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git@cat_hubert_wav2vec2
 ```
 
 ## Usage
