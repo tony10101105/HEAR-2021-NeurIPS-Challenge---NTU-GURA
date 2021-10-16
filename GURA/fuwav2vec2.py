@@ -13,8 +13,11 @@ class wav2vec2_fusion(torch.nn.Module):
         out = out.last_hidden_state
         fe = self.wav2vec2.feature_extractor(x)
         fe = fe.permute(0, 2, 1)
+
+        # choose one
         fe = torch.cat((fe, fe), dim = 2)
         # fe = torch.repeat_interleave(fe, 2, dim=2)
+
         return (out + fe) / 2
 
 
