@@ -75,8 +75,8 @@ class XWC(torch.nn.Module):
 
     sample_rate = SAMPLE_RATE
 
-    scene_embedding_size = 1280 + 1024 + 2048
-    timestamp_embedding_size = 1024
+    scene_embedding_size = 1024
+    timestamp_embedding_size = 3072
 
     def __init__(self):
         super().__init__()
@@ -188,7 +188,12 @@ def get_timestamp_embeddings(
 
     dim0, dim1 = xlarge_embeddings.shape[0], 1
 
-    return torch.cat((xlarge_embeddings, wav2vec2_embeddings, crepe_embeddings), dim = 1), torch.randn(dim0, dim1)
+    time_embeddings = torch.reshape(
+                    torch.cat((xlarge_embeddings, wav2vec2_embeddings, crepe_embeddings), dim = 1),
+                    (dim0, 1, model.timestamp_embedding_size)
+                    )
+
+    return time_embeddings, torch.randn(dim0, dim1)
 
 def get_scene_embeddings(
     audio: Tensor,
@@ -198,6 +203,8 @@ def get_scene_embeddings(
         audio, model, hop_size_samples=SCENE_HOP_SIZE_SAMPLES
     )
 
+    embeddings = torch.reshape(embeddings, (embeddings.shape[0], embeddings.shape[2]))
+
     # not use timestamps here
     # already compress each embeddings to 1024 dimension
 
@@ -206,6 +213,6 @@ def get_scene_embeddings(
     crepe_embeddings = embeddings[:, 2048:]
 
     if (xlarge_embeddings.shape != crepe_embeddings.shape) or (crepe_embeddings.shape != wav2vec2_embeddings.shape):
-        raise(f"wrong shape w-shape: {wav2vec2_embeddings.shape}, c-shape: {crepe_embeddings.shape}, x-shape: {xlarge_embeddings.shape}")
+        print(f"wrong shape w-shape: {wav2vec2_embeddings.shape}, c-shape: {crepe_embeddings.shape}, x-shape: {xlarge_embeddings.shape}")
 
     return (xlarge_embeddings + crepe_embeddings + wav2vec2_embeddings) / 3
