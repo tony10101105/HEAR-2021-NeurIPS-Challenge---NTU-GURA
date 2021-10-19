@@ -9,16 +9,13 @@ class hubert_large_fusion(torch.nn.Module):
         self.hubert = HubertModel.from_pretrained("facebook/hubert-large-ll60k")
         
     def forward(self, x):
-        out = self.hubert(x)
-        out = out.last_hidden_state
-        fe = self.hubert.feature_extractor(x)
-        fe = fe.permute(0, 2, 1)
+        out = self.hubert(x, output_hidden_states=True)
+        hidden_states = out.hidden_states
+        sum_hidden_states = hidden_states[0]
+        for i in range(1, len(hidden_states)):
+            sum_hidden_states += hidden_states[i]
 
-        # choose one
-        fe = torch.cat((fe, fe), dim = 2)
-        # fe = torch.repeat_interleave(fe, 2, dim=2)
-
-        return (out + fe) / 2
+        return sum_hidden_states / len(hidden_states)
 
 
 def load_model(model_file_path: str = "") -> torch.nn.Module:
