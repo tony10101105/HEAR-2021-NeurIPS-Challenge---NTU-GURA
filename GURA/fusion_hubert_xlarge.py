@@ -10,18 +10,14 @@ class hubert_xlarge_fusion(torch.nn.Module):
         
     def forward(self, x):
         out = self.hubert(x, output_hidden_states=True)
-        last_hidden_state = out.last_hidden_state
-        # shape: [108, 49, 1280]
+        # shape: a tuple with 49 elements, which is a tensor with shape [108, 49, 1280]
         hidden_states = out.hidden_states
-        # shape: [108, 512, 49]
-        print(last_hidden_state.shape, hidden_states.shape)
-        hidden_states = hidden_states.permute(0, 2, 1)
+        sum_hidden_states = hidden_states[0]
+        for i in range(1, len(hidden_states)):
+            sum_hidden_states += hidden_state[i]
 
-        # choose one
-        hidden_states = torch.cat((hidden_states, hidden_states), dim = 2)
-        # fe = torch.repeat_interleave(fe, 2, dim=2)
+        return sum_hidden_states / len(hidden_states)
 
-        return (last_hidden_state + hidden_states) / 2
 
 
 def load_model(model_file_path: str = "") -> torch.nn.Module:
