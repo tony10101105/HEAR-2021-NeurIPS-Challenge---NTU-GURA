@@ -7,18 +7,13 @@ class wav2vec2_fusion(torch.nn.Module):
     def __init__(self):
         super(wav2vec2_fusion, self).__init__()
         self.wav2vec2 = Wav2Vec2Model.from_pretrained("facebook/wav2vec2-large-960h-lv60-self")
-        
+
     def forward(self, x):
-        out = self.wav2vec2(x)
-        out = out.last_hidden_state
-        fe = self.wav2vec2.feature_extractor(x)
-        fe = fe.permute(0, 2, 1)
-
-        # choose one
-        fe = torch.cat((fe, fe), dim = 2)
-        # fe = torch.repeat_interleave(fe, 2, dim=2)
-
-        return (out + fe) / 2
+        output = self.wav2vec2(x, output_hidden_states=True)
+        out = output.hidden_states[0]
+        for i in range(1, len(output.hidden_states)):
+            out = out + output.hidden_states[i]
+        return out / len(output.hidden_states)
 
 
 def load_model(model_file_path: str = "") -> torch.nn.Module:
