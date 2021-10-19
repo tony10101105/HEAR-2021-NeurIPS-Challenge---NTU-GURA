@@ -15,7 +15,7 @@ git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git
 
 ```python3
 # In python code:
-from GURA import hubert_xlarge
+from GURA import fusion_wav2vec2
 ```
 ## CUDA Version
 
