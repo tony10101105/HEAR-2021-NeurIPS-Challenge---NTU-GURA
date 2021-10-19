@@ -3,21 +3,21 @@ import torch
 from transformers import HubertModel
 from torch import Tensor
 
+
 class hubert_xlarge_fusion(torch.nn.Module):
     def __init__(self):
         super(hubert_xlarge_fusion, self).__init__()
         self.hubert = HubertModel.from_pretrained("facebook/hubert-xlarge-ll60k")
-        
+
     def forward(self, x):
         out = self.hubert(x, output_hidden_states=True)
         # shape: a tuple with 49 elements, which is a tensor with shape [108, 49, 1280]
         hidden_states = out.hidden_states
         sum_hidden_states = hidden_states[0]
         for i in range(1, len(hidden_states)):
-            sum_hidden_states += hidden_state[i]
+            sum_hidden_states += hidden_states[i]
 
         return sum_hidden_states / len(hidden_states)
-
 
 
 def load_model(model_file_path: str = "") -> torch.nn.Module:
@@ -28,7 +28,7 @@ def load_model(model_file_path: str = "") -> torch.nn.Module:
         model.cuda()
 
     model.sample_rate = 16000
-    model.embedding_size = 1024
+    model.embedding_size = 1280
     model.scene_embedding_size = model.embedding_size
     model.timestamp_embedding_size = model.embedding_size
 
@@ -60,6 +60,7 @@ def get_timestamp_embeddings(audio: Tensor, model: torch.nn.Module,) -> Tuple[Te
     assert timestamps.shape[1] == embeddings.shape[1]
 
     return embeddings, timestamps
+
 
 def get_scene_embeddings(audio: Tensor, model: torch.nn.Module,) -> Tensor:
 
