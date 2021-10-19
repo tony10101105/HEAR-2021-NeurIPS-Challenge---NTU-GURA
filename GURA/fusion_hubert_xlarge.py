@@ -3,27 +3,30 @@ import torch
 from transformers import HubertModel
 from torch import Tensor
 
-class hubert_large_fusion(torch.nn.Module):
+class hubert_xlarge_fusion(torch.nn.Module):
     def __init__(self):
-        super(hubert_large_fusion, self).__init__()
-        self.hubert = HubertModel.from_pretrained("facebook/hubert-large-ll60k")
+        super(hubert_xlarge_fusion, self).__init__()
+        self.hubert = HubertModel.from_pretrained("facebook/hubert-xlarge-ll60k")
         
     def forward(self, x):
-        out = self.hubert(x)
-        out = out.last_hidden_state
-        fe = self.hubert.feature_extractor(x)
-        fe = fe.permute(0, 2, 1)
+        out = self.hubert(x, output_hidden_states=True)
+        last_hidden_state = out.last_hidden_state
+        # shape: [108, 49, 1280]
+        hidden_states = out.hidden_states
+        # shape: [108, 512, 49]
+        print(last_hidden_state.shape, hidden_states.shape)
+        hidden_states = hidden_states.permute(0, 2, 1)
 
         # choose one
-        fe = torch.cat((fe, fe), dim = 2)
+        hidden_states = torch.cat((hidden_states, hidden_states), dim = 2)
         # fe = torch.repeat_interleave(fe, 2, dim=2)
 
-        return (out + fe) / 2
+        return (last_hidden_state + hidden_states) / 2
 
 
 def load_model(model_file_path: str = "") -> torch.nn.Module:
 
-    model = hubert_large_fusion()
+    model = hubert_xlarge_fusion()
 
     if torch.cuda.is_available():
         model.cuda()
@@ -45,7 +48,7 @@ def get_timestamp_embeddings(audio: Tensor, model: torch.nn.Module,) -> Tuple[Te
             "audio input tensor must be 2D with shape (n_sounds, num_samples)"
         )
 
-    print("getting timestamp model")
+    # print("getting timestamp model")
 
     model.eval()
     with torch.no_grad():
@@ -64,7 +67,7 @@ def get_timestamp_embeddings(audio: Tensor, model: torch.nn.Module,) -> Tuple[Te
 
 def get_scene_embeddings(audio: Tensor, model: torch.nn.Module,) -> Tensor:
 
-    print("getting scene embeddings")
+    # print("getting scene embeddings")
 
     embeddings, _ = get_timestamp_embeddings(audio, model)
     embeddings = torch.mean(embeddings, dim=1)

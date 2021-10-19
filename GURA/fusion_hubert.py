@@ -6,7 +6,7 @@ from torch import Tensor
 class hubert_large_fusion(torch.nn.Module):
     def __init__(self):
         super(hubert_large_fusion, self).__init__()
-        self.hubert = HubertModel.from_pretrained("facebook/hubert-xlarge-ll60k")
+        self.hubert = HubertModel.from_pretrained("facebook/hubert-large-ll60k")
         
     def forward(self, x):
         out = self.hubert(x)
