@@ -2,7 +2,7 @@
 
 ## Description
 
-We use **HuBERT xlarge** to process the raw audio input.
+We fuse **wav2vec2** hidden states to process the raw audio input.
 
 ## Installation of the package
 
