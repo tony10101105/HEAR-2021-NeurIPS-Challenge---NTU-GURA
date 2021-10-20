@@ -172,7 +172,7 @@ def get_timestamp_embeddings(
     wav2vec2_embeddings = torch.mean(wav2vec2_embeddings, dim=1)
     crepe_embeddings = torch.mean(crepe_embeddings, dim=1)
 
-    batch_size = wav2vec2_embeddings[0].shape
+    batch_size = wav2vec2_embeddings.shape[0]
     embeddings = torch.reshape(
                 torch.cat((wav2vec2_embeddings, crepe_embeddings), dim=1),
                 (batch_size, 1, model.timestamp_embedding_size)
