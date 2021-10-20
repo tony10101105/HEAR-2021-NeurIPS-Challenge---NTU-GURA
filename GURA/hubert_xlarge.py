@@ -60,7 +60,7 @@ def load_model(
     if model_hub.startswith("facebook/hubert-base"):
         model.embedding_size = 768
     elif model_hub.startswith("facebook/hubert-xlarge"):
-        model.embedding_size = 1024
+        model.embedding_size = 1280
     else:
         raise ValueError(f"Unknown model_hub value {model_hub}!")
 
