@@ -2,7 +2,7 @@
 
 ## Description
 
-We use **HuBERT xlarge** to process the raw audio input.
+We fuse feature of **HuBERT xlarge** to process the raw audio input.
 
 ## Installation of the package
 
@@ -15,7 +15,7 @@ git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git
 
 ```python3
 # In python code:
-from GURA import hubert_xlarge
+from GURA import fusion_hubert_xlarge
 ```
 ## CUDA Version
 

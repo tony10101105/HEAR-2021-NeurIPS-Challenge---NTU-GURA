@@ -7,7 +7,7 @@ setuptools.setup(
     name="GURA",
     version="0.0.1",
     author="toyz's dog",
-    author_email="b08902126@csie.ntu.edu.tw",
+    author_email="b08901133@ntu.edu.tw",
     description="HEAR 2021",
     long_description=long_description,
     url="https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git",
