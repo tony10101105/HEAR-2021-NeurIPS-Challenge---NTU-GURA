@@ -1,7 +1,6 @@
 """
 concate embeddings of torchcrepe model & Hubert xlarge for HEAR 2021 NeurIPS competition.
 """
-from _typeshed import WriteableBuffer
 from typing import Tuple
 
 import torch
