@@ -15,7 +15,7 @@ git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git@avg_hu
 
 ```python3
 # In python code:
-from GURA import avgbert
+import GURA.avg_hubert_wav2vec2
 ```
 ## CUDA Version
 
