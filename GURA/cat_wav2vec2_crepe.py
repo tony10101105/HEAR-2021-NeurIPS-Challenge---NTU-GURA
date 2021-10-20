@@ -85,7 +85,7 @@ class Models(torch.nn.Module):
         self.crepe = TorchCrepeModel()
         self.wav2vec2 = Wav2Vec2Model.from_pretrained("facebook/wav2vec2-large-960h-lv60-self")
 
-    def get_crepe_timestamp_embeddings(audio, hop_size_samples, embeddings):
+    def get_crepe_timestamp_embeddings(self, audio, hop_size_samples, embeddings):
         ntimestamps = audio.shape[1] // hop_size_samples + 1
         hop_size = hop_size_samples * 1000 // SAMPLE_RATE
         # By default, the audio is padded with window_size // 2 zeros
@@ -165,7 +165,7 @@ def get_timestamp_embeddings(
         wav2vec2_embeddings = model.wav2vec2(audio).last_hidden_state
 
     # get embeddings & timestamp
-    crepe_embeddings, crepe_timestamp = model.get_crepe_timestamp_embeddings(audio, hop_size_samples, crepe_embeddings)
+    crepe_embeddings, _ = model.get_crepe_timestamp_embeddings(audio, hop_size_samples, crepe_embeddings)
     wav2vec2_embeddings, wav2vec2_timestamp = model.get_wav2vec2_timestamp_embeddings(audio, wav2vec2_embeddings)
 
     # get single embedding by torch.mean()
