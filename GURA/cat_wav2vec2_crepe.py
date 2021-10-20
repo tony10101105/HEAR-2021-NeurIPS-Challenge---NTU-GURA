@@ -151,7 +151,7 @@ def get_timestamp_embeddings(
         )
 
     # Make sure the correct model type was passed in
-    if not isinstance(model, TorchCrepeModel):
+    if not isinstance(model.crepe, TorchCrepeModel):
         raise ValueError(f"Model must be an instance of {TorchCrepeModel.__name__}")
 
     # Send the model to the same device that the audio tensor is on.
