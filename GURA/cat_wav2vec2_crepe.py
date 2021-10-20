@@ -114,10 +114,14 @@ class Models(torch.nn.Module):
         embeddings = embeddings.tolist()
 
         new_embeddings = []
-        for embedding in embeddings:
-            new_embeddings.append([(embedding[i] + embedding[i + 1]) / 2 for i in range(0, 2048, 2)])
-
-        return torch.tensor(new_embeddings, device = device)
+        
+        for i in range(len(embeddings)):
+            new_embeddings.append(
+                [[(embeddings[i][j][k] + embeddings[i][j][k + 1]) / 2 for k in range(0, 2048, 2)] 
+                for j in range(len(embeddings[i]))]
+                )
+        
+        return torch.tensor(new_embeddings, device=device)
     
     def get_wav2vec2_timestamp_embeddings(self, audio, embeddings):
         """
@@ -184,6 +188,7 @@ def get_timestamp_embeddings(
 
     # compress crepe embeddings
     crepe_embeddings = model.compress_crepe_embeddings(crepe_embeddings)
+    print(f'compressed embeddings: {crepe_embeddings.shape}\n')
     # get single embedding by torch.mean()
     # wav2vec2_embeddings = torch.mean(wav2vec2_embeddings, dim=1)
     # crepe_embeddings = torch.mean(crepe_embeddings, dim=1)
