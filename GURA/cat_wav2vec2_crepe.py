@@ -77,7 +77,7 @@ class Models(torch.nn.Module):
     """
     sample_rate = SAMPLE_RATE
 
-    timestamp_embedding_size = 2048
+    timestamp_embedding_size = 3072
     scene_embedding_size = 1024
 
     def __init__(self):
@@ -172,11 +172,11 @@ def get_timestamp_embeddings(
     wav2vec2_embeddings = torch.mean(wav2vec2_embeddings, dim=1)
     crepe_embeddings = torch.mean(crepe_embeddings, dim=1)
 
-    batch_size = wav2vec2_embeddings.shape[0]
-    embeddings = torch.reshape(
-                torch.cat((wav2vec2_embeddings, crepe_embeddings), dim=1),
-                (batch_size, 1, model.timestamp_embedding_size)
-                )
+    # print(f"wav2vec2: {wav2vec2_embeddings.shape}\ncrepe: {crepe_embeddings.shape}")
+
+    tmp = torch.cat((wav2vec2_embeddings, crepe_embeddings), dim=1)
+    # print(f"tmp: {tmp.shape}")
+    embeddings = torch.cat((wav2vec2_embeddings, crepe_embeddings), dim=1)
 
     return embeddings, wav2vec2_timestamp
 
