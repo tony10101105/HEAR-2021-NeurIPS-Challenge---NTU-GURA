@@ -188,11 +188,7 @@ def get_timestamp_embeddings(
 
     # compress crepe embeddings
     crepe_embeddings = model.compress_crepe_embeddings(crepe_embeddings)
-    print(f'compressed embeddings: {crepe_embeddings.shape}\n')
-    # get single embedding by torch.mean()
-    # wav2vec2_embeddings = torch.mean(wav2vec2_embeddings, dim=1)
-    # crepe_embeddings = torch.mean(crepe_embeddings, dim=1)
-
+    # print(f'compressed embeddings: {crepe_embeddings.shape}\n')
     # print(f"wav2vec2: {wav2vec2_embeddings.shape}\ncrepe: {crepe_embeddings.shape}")
     embeddings = torch.cat((wav2vec2_embeddings, crepe_embeddings), dim=1)
 
