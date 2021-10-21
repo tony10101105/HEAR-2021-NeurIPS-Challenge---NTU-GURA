@@ -187,6 +187,7 @@ def get_timestamp_embeddings(
     wav2vec2_embeddings, wav2vec2_timestamp = model.get_wav2vec2_timestamp_embeddings(audio, wav2vec2_embeddings)
 
     # compress crepe embeddings
+    # print(f'before compressed embeddings: {crepe_embeddings.shape}\n')
     crepe_embeddings = model.compress_crepe_embeddings(crepe_embeddings)
     # print(f'compressed embeddings: {crepe_embeddings.shape}\n')
     # print(f"wav2vec2: {wav2vec2_embeddings.shape}\ncrepe: {crepe_embeddings.shape}")
