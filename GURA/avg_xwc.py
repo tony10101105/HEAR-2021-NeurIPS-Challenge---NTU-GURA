@@ -214,5 +214,5 @@ def get_scene_embeddings(
 
     if (xlarge_embeddings.shape != crepe_embeddings.shape) or (crepe_embeddings.shape != wav2vec2_embeddings.shape):
         print(f"wrong shape w-shape: {wav2vec2_embeddings.shape}, c-shape: {crepe_embeddings.shape}, x-shape: {xlarge_embeddings.shape}")
-
+        
     return (xlarge_embeddings + crepe_embeddings + wav2vec2_embeddings) / 3
