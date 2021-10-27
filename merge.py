@@ -1,7 +1,6 @@
 import torch
 
-def merge(
-    *embeddings) -> torch.Tensor:
+def merge(*embeddings) -> torch.Tensor:
     """
     Merge three embeddings.
     Three embeddings are with the same shape: [108, 49, 1024].
