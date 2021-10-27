@@ -11,6 +11,7 @@ def merge(*embeddings) -> torch.Tensor:
     return torch.flatten(merge_embeddings, start_dim=(embeddings[0].dim()-1))
 
 a = torch.Tensor([[[1, 1, 1], [1, 1, 1], [1, 1, 1]], [[1, 1, 1], [1, 1, 1], [1, 1, 1]], [[1, 1, 1], [1, 1, 1], [1, 1, 1]]])
+# shape of a: [3, 3, 3], with all element=1
 b = 2 * a
 c = 3 * a
 d = merge(a, b, c)
