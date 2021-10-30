@@ -23,7 +23,7 @@ def load_model(model_file_path: str = "") -> torch.nn.Module:
         model.cuda()
 
     model.sample_rate = 16000
-    model.embedding_size = 1024
+    model.embedding_size = 2048
     model.scene_embedding_size = model.embedding_size
     model.timestamp_embedding_size = model.embedding_size
 
