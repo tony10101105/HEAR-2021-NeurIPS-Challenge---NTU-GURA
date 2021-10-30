@@ -2,7 +2,7 @@
 
 ## Description
 
-We average **HuBERT large** & **TorchCrepe** to process the raw audio input.
+We average **HuBERT xlarge** & **TorchCrepe** to process the raw audio input.
 
 ## Installation of the package
 
