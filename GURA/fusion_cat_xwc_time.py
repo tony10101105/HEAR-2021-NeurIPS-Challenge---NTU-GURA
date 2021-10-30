@@ -14,8 +14,34 @@ SCENE_HOP_SIZE = 250
 TIMESTAMP_HOP_SIZE_SAMPLES = (SAMPLE_RATE * TIMESTAMP_HOP_SIZE) // 1000
 SCENE_HOP_SIZE_SAMPLES = (SAMPLE_RATE * SCENE_HOP_SIZE) // 1000
 
-####### Wav2vec2 #######
-from transformers import Wav2Vec2Model
+####### Hubert and Wav2vec2 #######
+from transformers import Wav2Vec2Model, HubertModel
+
+class hubert_xlarge_fusion(torch.nn.Module):
+    def __init__(self):
+        super(hubert_xlarge_fusion, self).__init__()
+        self.hubert = HubertModel.from_pretrained("facebook/hubert-xlarge-ll60k")
+
+    def forward(self, x):
+        out = self.hubert(x, output_hidden_states=True)
+        hidden_states = out.hidden_states
+        sum_hidden_states = hidden_states[0]
+        for i in range(1, len(hidden_states)):
+            sum_hidden_states += hidden_states[i]
+
+        return sum_hidden_states / len(hidden_states)
+
+class wav2vec2_fusion(torch.nn.Module):
+    def __init__(self):
+        super(wav2vec2_fusion, self).__init__()
+        self.wav2vec2 = Wav2Vec2Model.from_pretrained("facebook/wav2vec2-large-960h-lv60-self")
+
+    def forward(self, x):
+        output = self.wav2vec2(x, output_hidden_states=True)
+        out = output.hidden_states[0]
+        for i in range(1, len(output.hidden_states)):
+            out = out + output.hidden_states[i]
+        return out / len(output.hidden_states)
 
 class TorchCrepeModel(torch.nn.Module):
     """
@@ -67,33 +93,30 @@ class TorchCrepeModel(torch.nn.Module):
             embeddings.append(embedding)
         return torch.cat(embeddings)
 
-class WC(torch.nn.Module):
+class XWC_fusion(torch.nn.Module):
 
     def __init__(self):
         super().__init__()
-        self.wav2vec2 = Wav2Vec2Model.from_pretrained("facebook/wav2vec2-large-960h-lv60-self")
+        self.hubert = hubert_xlarge_fusion()
+        self.wav2vec2 = wav2vec2_fusion()
         self.crepe = TorchCrepeModel()
 
     def forward(self, x, hop_size_samples):
-        wav2vec2_output = self.wav2vec2(x).last_hidden_state
+        hubert_output = self.hubert(x)
+        wav2vec2_output = self.wav2vec2(x)
         crepe_output = self.crepe(x, hop_size_samples)
 
-        return wav2vec2_output, crepe_output
+        return hubert_output, wav2vec2_output, crepe_output
 
 def load_model(model_file_path: str = "") -> torch.nn.Module:
-    """
-    Args:
-        model_file_path: Ignored
-    Returns:
-        WC()
-    """
 
-    model = WC()
+    model = XWC_fusion()
 
     model.sample_rate = SAMPLE_RATE
+    model.groups = 5
 
-    model.timestamp_embedding_size = 2048
-    model.scene_embedding_size = 2048
+    model.timestamp_embedding_size = 3072
+    model.scene_embedding_size = 3072 * model.groups
 
     return model
 
@@ -108,17 +131,24 @@ def get_timestamp_embeddings(
             "audio input tensor must be 2D with shape (n_sounds, num_samples)"
         )
 
-    if not isinstance(model, WC):
-        raise ValueError(f"Model must be an instance of {WC.__name__}")
+    if not isinstance(model, XWC_fusion):
+        raise ValueError(f"Model must be an instance of {XWC_fusion.__name__}")
 
+    # Send the model to the same device that the audio tensor is on.
     model.eval()
     with torch.no_grad():
-        wav2vec2_embeddings, crepe_embeddings = model(audio, hop_size_samples)
+        xlarge_embeddings, wav2vec2_embeddings, crepe_embeddings = model(audio, hop_size_samples)
 
+    def resample(embeddings, time_stamp_size):
+        '''
+        embeddings = B * C * W ex: 24 * embedding_size * n_timestamp
+        '''
 
-    """
-    resample embeddings to same shape as wav2vec2_embeddings
-    """
+        return
+
+    xlarge_embeddings = F.interpolate(xlarge_embeddings,
+                            size = wav2vec2_embeddings.shape[2],
+                            mode = "linear")
     crepe_embeddings = F.interpolate(crepe_embeddings,
                             size = wav2vec2_embeddings.shape[2],
                             mode = "linear"
@@ -143,12 +173,23 @@ def get_timestamp_embeddings(
         """
         # Interleave embeddings.
         merge_embeddings = torch.stack(embeddings, dim=embeddings[0].dim())
-        # Reshape: [nsounds, ntimestamps, 1024, 3] -> [nsounds, ntimestamps, 3072], then return the Tensor.
         return torch.flatten(merge_embeddings, start_dim=(embeddings[0].dim()-1))
 
-    embeddings = merge(wav2vec2_embeddings, crepe_embeddings)
+    embeddings = merge(xlarge_embeddings, wav2vec2_embeddings, crepe_embeddings)
 
     return embeddings, timestamps
+
+def get_condense_embeddings(
+    embeddings: Tensor,
+    k: int = 1,
+) -> Tensor:
+    """
+    equally split embeddings to k groups
+    """
+    embeddings = embeddings[:, :embeddings.shape[1] // k * k, :]
+    embeddings_tuple = torch.split(embeddings, embeddings.shape[1] // k, dim = 1)
+    condensed_embeddings = tuple([torch.mean(embedding, dim = 1) for embedding in embeddings_tuple])
+    return torch.cat(condensed_embeddings, dim = 1)
 
 def get_scene_embeddings(
     audio: Tensor,
@@ -158,5 +199,5 @@ def get_scene_embeddings(
         audio, model, hop_size_samples=SCENE_HOP_SIZE_SAMPLES
     )
 
-    embeddings = torch.mean(embeddings, dim=1)
-    return embeddings
+    condensed_embeddings = get_condense_embeddings(embeddings, model.groups)
+    return condensed_embeddings
