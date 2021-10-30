@@ -2,7 +2,7 @@
 
 ## Description
 
-We use **HuBERT xlarge** to process the raw audio input.
+We average **HuBERT xlarge** and **Wav2vec2** and **TorchCrepe** to process the raw audio input.
 
 ## Installation of the package
 
