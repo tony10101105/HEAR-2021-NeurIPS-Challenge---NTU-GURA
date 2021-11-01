@@ -2,9 +2,9 @@
 
 ## Description
 
-We try many methods (cat, average, fusion) on three models (Hubert, Wav2vec2, Torchcrepe).
-Notice that Hubert models contain xlarge and large, Wav2vec2 model contains only large.
-The pretrained models me use are:
+- We try many methods (cat, average, fusion) on three models (Hubert, Wav2vec2, Torchcrepe).
+- Notice that Hubert models contain xlarge and large, Wav2vec2 model contains only large.
+- The pretrained models me use are:
   - facebook/hubert-large-ll60k
   - facebook/hubert-xlarge-ll60k
   - facebook/wav2vec2-large-960h-lv60-self
