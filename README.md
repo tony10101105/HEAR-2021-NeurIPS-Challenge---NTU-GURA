@@ -2,21 +2,28 @@
 
 ## Description
 
-We average **HuBERT large** & **wav2vec2 large** to process the raw audio input.
-
+We try many methods (cat, average, fusion) on three models (Hubert, Wav2vec2, Torchcrepe).
+Notice that Hubert models contain xlarge and large, Wav2vec2 model contains only large.
+The pretrained models me use are:
+  - facebook/hubert-large-ll60k
+  - facebook/hubert-xlarge-ll60k
+  - facebook/wav2vec2-large-960h-lv60-self
+  - torchcrepe
+  
 ## Installation of the package
 
 ```shell
 pip install \
-git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git@avg_hubert_wav2vec2
+git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git
 ```
 
 ## Usage
 
 ```python3
 # In python code:
-import GURA.avg_hubert_wav2vec2
+import GURA
 ```
+
 ## CUDA Version
 
 * CUDA: 11.4
