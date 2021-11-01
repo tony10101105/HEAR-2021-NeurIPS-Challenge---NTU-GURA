@@ -3,8 +3,9 @@
 ## Description
 
 - We try many methods (cat, average, fusion) on three models (Hubert, Wav2vec2, Torchcrepe).
+- We adopt two methods on the relationship between our scene-embedding and timestamp-embedding models. In "fusion_cat_xwc_time", every certain time inverted is averaged and concatenated. In other models, we simply average three models'(Hubert, Wav2vec2, Torchcrepe) embeddings.
 - Notice that Hubert models contain xlarge and large, Wav2vec2 model contains only large.
-- The pretrained models me use are:
+- The pretrained models we use are:
   - facebook/hubert-large-ll60k
   - facebook/hubert-xlarge-ll60k
   - facebook/wav2vec2-large-960h-lv60-self
@@ -19,7 +20,7 @@ git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git
 
 ## Usage
 
-```python3
+```python3.8
 # In python code:
 from GURA import fusion_wav2vec2
 from GURA import cat_wc
