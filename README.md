@@ -37,6 +37,9 @@ from GURA import cat_wc
 
 * CUDA: 11.4
 
+## Torch Version
+* torch: 1.9.1+cu111
+
 ## Transformer Version
 
 * 4.11.3
