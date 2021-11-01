@@ -20,7 +20,7 @@ git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git
 
 ## Usage
 
-```python3.8
+```python
 # In python code:
 from GURA import fusion_wav2vec2
 from GURA import cat_wc
@@ -28,6 +28,10 @@ from GURA import cat_wc
 .
 .
 ```
+
+## Python Version
+
+* python3.8
 
 ## CUDA Version
 
