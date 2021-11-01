@@ -31,3 +31,7 @@ import GURA
 ## Transformer Version
 
 * 4.11.3
+
+## Torchcrepe Version
+
+* 0.0.15
