@@ -76,7 +76,6 @@ class XC(torch.nn.Module):
 
     def forward(self, x, hop_size_samples):
         hubert_output = self.hubert(x).last_hidden_state
-        wav2vec2_output = self.wav2vec2(x).last_hidden_state
         crepe_output = self.crepe(x, hop_size_samples)
 
         return hubert_output, wav2vec2_output, crepe_output
