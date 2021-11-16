@@ -16,7 +16,6 @@ setuptools.setup(
         "transformers==4.11.0",
         "Torchcrepe==0.0.15",
         "torch==1.9.1",
-        "cudatoolkit=11.1",
         "tensorflow-gpu==2.7.0",
         "abydos==0.5.0",
     ],
