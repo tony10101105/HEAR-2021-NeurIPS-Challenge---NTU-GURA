@@ -15,7 +15,7 @@ setuptools.setup(
     install_requires=[
         "transformers==4.11.3",
         "Torchcrepe==0.0.15",
-        "torch >= 1.9.1",
+        "torch==1.9.1",
         "tensorflow-gpu==2.7.0",
         "abydos==0.5.0",
     ],
