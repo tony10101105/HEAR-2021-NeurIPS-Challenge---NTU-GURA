@@ -15,7 +15,7 @@ setuptools.setup(
     install_requires=[
         "transformers==4.11.0",
         "Torchcrepe==0.0.15",
-        "torch==1.9.1+cu111",
+        "torch==1.9.1",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
