@@ -14,10 +14,6 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "transformers==4.11.3",
-        "Torchcrepe==0.0.15",
-        "torch>=1.10.0+cu111",
-        "tensorflow-gpu==2.7.0",
-        "abydos==0.5.0",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
