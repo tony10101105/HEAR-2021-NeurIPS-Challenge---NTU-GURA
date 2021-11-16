@@ -13,7 +13,7 @@ setuptools.setup(
     url="https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU.git",
     packages=setuptools.find_packages(),
     install_requires=[
-        "transformers==4.11.0",
+        "transformers==4.11.3",
         "Torchcrepe==0.0.15",
         "torch==1.9.1",
         "tensorflow-gpu==2.7.0",
