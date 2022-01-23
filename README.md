@@ -1,4 +1,4 @@
-# HEAR-2021-NeurIPS-Challenge---NTU
+# HEAR-2021-NeurIPS-Challenge---NTU-GURA
 
 ## Description
 
