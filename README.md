@@ -3,9 +3,9 @@
 ## Description
 
 - Our team have evaluated several ensemble methods, such as feature concatenation, average, and fusion, on three models (Hubert, Wav2vec2, Torchcrepe).
-- 
+
 - We adopt two methods on the relationship between our scene-embedding and timestamp-embedding models. In "fusion_cat_xwc_time", every certain time inverted is averaged and concatenated. In other models, we simply average three models'(Hubert, Wav2vec2, Torchcrepe) embeddings.
-- 
+
 - The pretrained models used are:
   - facebook/hubert-large-ll60k
   - facebook/hubert-xlarge-ll60k
