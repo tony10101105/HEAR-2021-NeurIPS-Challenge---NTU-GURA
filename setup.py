@@ -14,6 +14,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
 		"transformers==4.11.3",
+	        "torchcrepe",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
